@@ -3,8 +3,13 @@
 
     angular
     .module('DonationApp')
+    .run(CheckLogin)
+    .config(RouterConf);
 
-    .config(function($stateProvider, $locationProvider, $urlRouterProvider){
+    RouterConf.$inject = ['$stateProvider', '$locationProvider', '$urlRouterProvider'];
+    CheckLogin.$inject = ['$transitions', '$state', 'AuthService'];
+
+    function RouterConf($stateProvider, $locationProvider, $urlRouterProvider){
 
       $urlRouterProvider.otherwise('/donations');
 
@@ -62,6 +67,18 @@
           component: 'step4Component'
         })
 
-    });
+      
+    }
+
+    function CheckLogin($transitions, $state, AuthService) {
+      $transitions.onSuccess({}, function(){ 
+        if(!AuthService.IsLogued() == true){
+          $state.go('login');
+        }
+      });
+
+     
+    }
+    
     
 })();

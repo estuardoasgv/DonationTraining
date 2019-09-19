@@ -10,9 +10,9 @@
             templateUrl: 'js/Components/Step3Component/step3.html'
         })
 
-        Step3Controller.$inject = ['$cockies'];
+        Step3Controller.$inject = ['$cookies'];
 
-        function Step3Controller($cockies){
+        function Step3Controller($cookies){
 
         }
 })();

@@ -10,9 +10,9 @@
             templateUrl: 'js/Components/StepsBarComponent/StepsBar.html'
         })
 
-        StepBarController.$inject = ['$cockies'];
+        StepBarController.$inject = ['$cookies'];
 
-        function StepBarController($cockies){
+        function StepBarController($cookies){
 
         }
 })();

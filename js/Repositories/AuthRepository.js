@@ -18,7 +18,7 @@
         function AuthApp() {
             return $http({
                 method: 'GET',
-                url: 'http://192.168.7.51:3000/api/Application/Authenticate',
+                url: `${ConstantsApp.api}Application/Authenticate`,
                 params: {
                     apiKey: ConstantsApp.apiKey,
                 },
@@ -33,22 +33,24 @@
             })
         }
     
-        function AuthDonor() {
+        function AuthDonor(userData) {
             return $http({
                 method: 'GET',
-                url: 'http://192.168.7.51:3000/api/Donor/Authenticate',
+                url: `${ConstantsApp.api}Donor/Authenticate`,
                 params: { 
+                    ...userData,
                     apiKey: ConstantsApp.apiKey,
                 },
                 headers: {
                     Authorization: `Bearer ${ConstantsApp.applicationToken}`
                 }
-            }).then((res) => {
-                return res;
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+            }).then((res) => { 
+                if(res.data.Errors){ 
+                    throw new Error(res);
+                } else {
+                    return res;
+                } 
+            }) 
         }
     }
 })()

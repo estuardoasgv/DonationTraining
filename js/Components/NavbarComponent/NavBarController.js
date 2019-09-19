@@ -6,11 +6,19 @@
 
     .component('navBar', {
         controller: navBarController,
-        templateUrl: 'js/Components/NavbarComponent/navbar.html'
+        templateUrl: 'js/Components/NavbarComponent/navbar.html',
+        controllerAs: 'vm'
     })
 
-    navBarController.$inject = ['$scope', '$location']; 
-    function navBarController($scope, $location) { 
+    navBarController.$inject = ['AuthService']; 
+    function navBarController(AuthService) { 
+        var vm = this;
 
+        vm.Logout = Logout;
+
+        function Logout(){
+            AuthService.Logout(); 
+        }
+        
     }
 })(); 

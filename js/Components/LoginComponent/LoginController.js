@@ -21,14 +21,32 @@
   function LoginController(AuthService, $location, $state) {
     var vm = this;
 
-    
+    vm.login = login;
+    vm.loginForm;
     vm.$onInit = onInit;
     vm.errorAuthentication = false;
 
-    function onInit() {
-
+    function onInit() { 
         AuthService.GetAuthToken() 
     }
+
+
+    function login(loginForm) {
+
+      if (loginForm.$invalid){
+        console.log('formulario invalido')
+      }
+
+      AuthService.AuthDonor(vm.loginForm)
+      .then ((res) => {
+        $state.go('listDonation');
+      }).catch ((err) => {
+        vm.errMsg = true;
+        vm.errorMessage = 'Login Error';
+        vm.loginForm.$invalid = true;
+      })
+    }
+    
 
   }
 
