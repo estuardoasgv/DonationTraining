@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>All Donations</title>
+</head>
+
+<body>
+    <nav-bar></nav-bar>
+
+    <section class="jumbotron text-center bg-blue">
+        <div class="container">
+            <h2 class="jumbotron-heading">New Donations</h2>
+        </div>
+    </section>
+
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#!/home">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">New Donation</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+
+            <div class="col-md-10">
+
+                <div class="row">
+                    <div class="col-md-12"> 
+                        
+                        <step-bar></step-bar>
+                        
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="discover">
+                                <ui-view></ui-view>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
