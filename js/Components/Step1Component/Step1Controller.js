@@ -36,7 +36,18 @@
                 vm.PaymentZipExtention = null;
                 vm.PaymentCustomAmount = null;
                 vm.CcIsValid = false;
-                vm.ErrorMessageCc = false; 
+                vm.ErrorMessageCc = false;
+                DonationService.DataDonation.Success = false;
+
+
+                vm.OpenExpDatePopup = OpenExpDatePopup;
+                vm.expDatePopup = {
+                    opened: false
+                }
+                vm.ExpDateOpts = {
+                    minMode: 'month',
+                    minDate: Date.now()
+                }
 
                 PaymentService.GetPaymentSettings()
                 .then((res) => {  
@@ -146,6 +157,10 @@
             }
             function ResetAmount() { 
                 vm.PaymentAmount = vm.PaymentCustomAmount;
+            }
+
+            function OpenExpDatePopup() {
+                vm.expDatePopup.opened = true;
             }
 
         }

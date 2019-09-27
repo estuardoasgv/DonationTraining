@@ -156,15 +156,23 @@
     
                             <div class="col-md-3 mb-3">
                                 <label for="validationServer02">Expiration Date</label>
-                                <input  type="text" 
-                                        name="expirationDate" 
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.expirationDate.$invalid }" 
-                                        id="expirationDate" 
-                                        class="form-control"
-                                        placeholder="mm/yyyy" 
+                                <input required 
+                                        type="text"
+                                        readonly
+                                        class="form-control" 
+                                        uib-datepicker-popup="MM/yyyy" 
                                         ng-model="vm.PaymentExpirationDate" 
-                                        required="required">
+                                        name="expirationDate"
+                                        is-open="vm.expDatePopup.opened" 
+                                        datepicker-options="vm.ExpDateOpts" 
+                                        datepicker-mode="'month'"
+                                        close-text="Close"
+                                        placeholder="mm/yyyy"
+                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.expirationDate.$invalid }" 
+                                        alt-input-formats="altInputFormats"
+                                        ng-click="vm.OpenExpDatePopup()" />
                             </div>
+
 
                             <div class="col-md-6 mb-3">
                                 <label for="validationServer02">Contact Email Address</label>

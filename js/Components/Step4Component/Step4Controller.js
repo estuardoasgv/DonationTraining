@@ -19,7 +19,7 @@
             vm.$onInit = onInit; 
             
             function onInit() { 
-                if(DonationService.DataDonation.Success != true && DonationService.DataDonation.Payment == null ){
+                if(DonationService.DataDonation.Success != true  ){
                     $state.go('newDonation.step1');
                 } 
 
