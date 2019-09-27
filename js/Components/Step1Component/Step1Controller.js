@@ -18,7 +18,7 @@
             var vm = this; 
            
             vm.$onInit = onInit; 
-            vm.CustomAmountRequired = false;
+            
             vm.RemoveCustomAmount = RemoveCustomAmount;
             vm.SetCustomAmount = SetCustomAmount;
             vm.ResetAmount = ResetAmount;
@@ -29,7 +29,7 @@
                 vm.SavePayment = SavePayment;
                 vm.PaymentForm;
                 vm.ValidateCCNumber = ValidateCCNumber;
-                vm.CustomAmountRequired = true;
+                vm.CustomAmountRequired = false;
                 vm.ErrorMessage = false; 
                 vm.PaymentDataArray = {};
                 vm.PaymentState = null;

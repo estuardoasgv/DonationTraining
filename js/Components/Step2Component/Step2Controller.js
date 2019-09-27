@@ -34,9 +34,12 @@
                         console.log(err);
                     });  
 
-                if(DonationService.DataDonation.Payment != null){
-                    vm.CharitySelected = DonationService.DataDonation.Charity.EntityId;
-                    console.log(DonationService.DataDonation.Payment);
+                if(DonationService.DataDonation.Payment !== null){
+                    if(DonationService.DataDonation.Charity !== null){ 
+                        vm.CharitySelected = DonationService.DataDonation.Charity.EntityId;
+                    } else {
+                        console.log(DonationService.DataDonation.Payment);
+                    } 
                 } else {
                     $state.go('newDonation.step1');
                 }

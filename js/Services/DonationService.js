@@ -83,9 +83,15 @@
                 return new $q((resolve, reject) => { 
                     PaymentRepository.SaveDonation(pledge, ipAddress)
                         .then((res) => {   
+                            console.log(res);
                             service.DataDonation.Success = true;
                             ClearData();
-                            return resolve(res);
+                            if(res.Errors){
+                                return reject('Error')
+                            } else {
+                                return resolve(res);
+                            }
+                            
                         })
                         .catch((err) => {
                             return reject(err);

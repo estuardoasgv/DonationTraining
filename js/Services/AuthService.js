@@ -32,8 +32,7 @@
             return AuthRepository.AuthDonor(userData)
                 .then((res) => {
                     $cookies.put('donorToken', res.data.Data.DonorToken); 
-                    ConstantsApp.donorToken = $cookies.get('donorToken');
-                    console.log($cookies.get('donorToken'));
+                    ConstantsApp.donorToken = $cookies.get('donorToken'); 
                     return res
                 })
                 .catch((err) => { 
