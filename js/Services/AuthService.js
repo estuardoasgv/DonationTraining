@@ -51,8 +51,8 @@
 
         function IsLogued(){
             if( $cookies.get('applicationToken') && $cookies.get('donorToken')){
-                ConstantsApp.applicationToken == $cookies.get('applicationToken');
-                ConstantsApp.donorToken == $cookies.get('donorToken');
+                ConstantsApp.applicationToken = $cookies.get('applicationToken');
+                ConstantsApp.donorToken = $cookies.get('donorToken');
                 return true;
             } else {
                 Logout();

@@ -1,69 +1,38 @@
-<!DOCTYPE html>
-<html>
+<div class="container login-container">
 
-<head>
-    <title>Login Page</title>
-</head>
+    <div class="alert alert-danger alert-dismissible fade show zoomIn animated faster" role="alert" ng-show="vm.errMsg">
+        <strong>{{ vm.errorMessage }}
+    </div>
 
-<body ng-controller="AuthController">
-    <div class="container login-container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 login-form-2 zoomIn animated faster">
+            <h3>Login</h3>
+            <form role="form" name="loginForm" ng-submit="vm.login(loginForm)" novalidate>
+                <div class="form-group">
+                    <input type="text" name="campaignCode" id="campaignCode" class="form-control"
+                        placeholder="Campaign Code" ng-required="required" ng-model="vm.loginForm.campaignCode"
+                        ng-class="{'is-invalid' : loginForm.$submitted && loginForm.campaignCode.$invalid }" />
 
-        <div class="alert alert-danger alert-dismissible fade show zoomIn animated faster" role="alert"
-            ng-show="vm.errMsg">
-            <strong>{{ vm.errorMessage }} 
-        </div>
+                    <div class="invalid-feedback"> Campaign Required </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Username"
+                        ng-required="required" ng-model="vm.loginForm.username"
+                        ng-class="{'is-invalid' : loginForm.$submitted && loginForm.username.$invalid }" />
+                    <div class="invalid-feedback"> Username required  </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Password"
+                        ng-required="required" ng-model="vm.loginForm.password"
+                        ng-class="{'is-invalid' : loginForm.$submitted && loginForm.password.$invalid }" />
 
-        <div class="row">
-            <div class="col-md-6 offset-md-3 login-form-2 zoomIn animated faster">
-                <h3>Login</h3>
-                <form role="form" name="loginForm" ng-submit="vm.login(loginForm)" novalidate>
-                    <div class="form-group">
-                        <input type="text" 
-                            name="campaignCode" 
-                            id="campaignCode" 
-                            class="form-control" 
-                            placeholder="Campaign Code" 
-                            required="required" 
-                            ng-model="vm.loginForm.campaignCode"
-                            ng-class="{'is-invalid' : loginForm.$submitted && loginForm.campaignCode.$invalid }" />
+                    <div class="invalid-feedback"> Password Required  </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btnSubmit" value="Enter" />
+                </div>
 
-                        <div class="invalid-feedback">
-                            This field is required
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" 
-                            name="username" 
-                            id="username" 
-                            class="form-control" 
-                            placeholder="Username" 
-                            required="required" 
-                            ng-model="vm.loginForm.username"
-                            ng-class="{'is-invalid' : loginForm.$submitted && loginForm.username.$invalid }" />
-                        <div class="invalid-feedback">
-                            This field is required
-                        </div>
-                    </div>
-                    <div class="form-group">
-                            <input type="password" 
-                            name="password" 
-                            id="password" 
-                            class="form-control" 
-                            placeholder="Password" 
-                            required="required" 
-                            ng-model="vm.loginForm.password"
-                            ng-class="{'is-invalid' : loginForm.$submitted && loginForm.password.$invalid }" />
-                        
-                        <div class="invalid-feedback">
-                            This field is required
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" class="btnSubmit" value="Enter"/>
-                    </div>
-
-                </form>
-            </div>
+            </form>
         </div>
     </div>
-</body>
+</div>

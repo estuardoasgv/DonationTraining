@@ -1,36 +1,46 @@
-<div id="accordion">
-    <div class="card">
-        <div class="card-header" id="headingOne">
-            <h5 class="mb-0">
-                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-                    aria-controls="collapseOne">
-                    Collapsible Group Item #1
-                </button>
-            </h5>
-        </div>
+<div class="alert alert-danger" role="alert" ng-show="vm.ErrorMessage">
+    {{ vm.ErrorMessageText }}
+</div>
+<form role="form" name="CharityForm" ng-submit="vm.SaveCharity(CharityForm)" novalidate>
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                        aria-controls="collapseOne">
+                        Collapsible Group Item #1
+                    </button>
+                </h5>
+            </div>
 
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-            <div class="card-body">
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
-                                value="option1" checked>
-                            <label class="form-check-label" for="exampleRadios1">
-                                United Way of Metropolitan Dallas Inc.
-                            </label>
-                        </div>
-                        <hr>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
-                                value="option2">
-                            <label class="form-check-label" for="exampleRadios2">
-                                English 72001 - Primary Desgnation Panel Option Text
-                            </label>
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3"> 
+                            <div class="form-check" ng-repeat="Charity in vm.GetCharities.PanelItemList">
+                                <input  class="form-check-input" 
+                                        required="required" 
+                                        type="radio" 
+                                        name="Charity"
+                                        id="Charity{{ $index }}" 
+                                        ng-value="Charity.EntityId" 
+                                        required="required"
+                                        ng-class="{'is-invalid' : CharityForm.$submitted && CharityForm.Charity.$invalid }" 
+                                        ng-model="vm.CharitySelected">
+                                <label class="form-check-label" for="Charity"> {{ Charity.Name }} </label>
+                                <hr>
+                            </div> 
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="mt-3 float-right mb-5">
+        <button type="button" class="btn btn-outline-primary" ui-sref="newDonation.step1">Previous</button>
+        <button class="btn btn-outline-success" type="submit">Next</button>
+    </div>
+
+</form>
+

@@ -7,12 +7,22 @@
 
         .component('step4Component', {
             controller: Step4Controller,
-            templateUrl: 'js/Components/Step4Component/step4.html'
+            templateUrl: 'js/Components/Step4Component/step4.html',
+            controllerAs: 'vm'
         })
 
-        Step4Controller.$inject = ['$cookies'];
+        Step4Controller.$inject = ['PaymentService', '$location', '$state', 'DonationService' ];
 
-        function Step4Controller($cookies){
+        function Step4Controller(PaymentService, $location, $state, DonationService){
+            var vm = this; 
+           
+            vm.$onInit = onInit; 
+            
+            function onInit() { 
+                if(DonationService.DataDonation.Success != true && DonationService.DataDonation.Payment == null ){
+                    $state.go('newDonation.step1');
+                } 
 
+            }
         }
 })();

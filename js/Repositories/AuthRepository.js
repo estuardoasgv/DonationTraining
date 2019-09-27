@@ -20,10 +20,10 @@
                 method: 'GET',
                 url: `${ConstantsApp.api}Application/Authenticate`,
                 params: {
-                    apiKey: ConstantsApp.apiKey,
+                    apiKey: 'RTJ4+E4067P+mqIEizOkGu7nHAxRBfZzkE+/+r1/SbQ=',
                 },
                 headers: {
-                    Authorization: `Basic ${ConstantsApp.applicationToken}`
+                    Authorization: 'Basic dmlhcm86cEBzc3dvcmQ='
                 }
             }).then((res) => {
                 return res;

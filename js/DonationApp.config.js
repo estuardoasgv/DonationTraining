@@ -77,6 +77,14 @@
         }
       });
 
+      $transitions.onSuccess({to: 'login'}, function(){ 
+        if(AuthService.IsLogued() == true){
+          $state.go('listDonation');
+        } else {
+          $state.go('login');
+        }
+      });
+
      
     }
     

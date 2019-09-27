@@ -10,15 +10,20 @@
         controllerAs: 'vm'
     })
 
-    navBarController.$inject = ['AuthService']; 
-    function navBarController(AuthService) { 
+    navBarController.$inject = ['AuthService', '$interval']; 
+    function navBarController(AuthService, $interval) { 
         var vm = this;
 
         vm.Logout = Logout;
+        vm.$onInit = onInit; 
 
         function Logout(){
             AuthService.Logout(); 
         }
+
+        function onInit() {  
+            $interval(function(){ AuthService.GetAuthToken(); }, 1000*60*5 )
+        } 
         
     }
 })(); 

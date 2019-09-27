@@ -6,20 +6,21 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                <a class="navbar-brand" href="/donations">
+                <a class="navbar-brand" ui-sref="listDonation">
                     <img ng-src="../imgs/donation.png" width="30" height="30" class="d-inline-block align-top" alt="">
                     DonationsApp
                 </a>
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/donations">Home </a>
+                        <a class="nav-link" ui-sref="listDonation">Home </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/new">New Donation</a>
+                        <a class="nav-link" ui-sref="newDonation">New Donation</a>
                     </li>
                 </ul>
                 <div class="form-inline my-2 my-lg-0">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" ng-click="vm.Logout()">Cerrar Sesión</button> 
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" ng-click="vm.Logout()">Cerrar
+                        Sesión</button>
                 </div>
             </div>
         </div>

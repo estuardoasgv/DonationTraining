@@ -148,6 +148,12 @@ body {
 .process-model li.visited {
     color: #D6DA28;
 }
+
+.process-model li.actived,
+.process-model li.visited {
+    color: #0062cc;
+}
+
 .process-model li.active a,
 .process-model li.active a:hover,
 .process-model li.active a:focus,
@@ -156,11 +162,27 @@ body {
 .process-model li.visited a:focus {
     color: #D6DA28;
 }
+
+
+.process-model li.actived a,
+.process-model li.actived a:hover,
+.process-model li.actived a:focus,d {
+    color: #0062cc;
+}
+
 .process-model li.active p,
 .process-model li.visited p {
     font-weight: 600;
     color: #D6DA28;
 }
+
+.process-model li.actived p,
+.process-model li.visited p {
+    font-weight: 600;
+    color: #0062cc;
+}
+
+
 .process-model li i {
     display: block;
     height: 58px;
@@ -177,6 +199,12 @@ body {
     background: #fff;
     border-color: #D6DA28;
 }
+
+.process-model li.actived i, .process-model li.visited i  {
+    background: #fff;
+    border-color: #0062cc;
+}
+
 .process-model li p {
     font-size: 14px;
     margin-top: 11px;

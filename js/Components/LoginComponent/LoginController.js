@@ -9,30 +9,25 @@
     .component('loginComponent', {
       controller: LoginController,
       templateUrl: 'js/Components/LoginComponent/login.html',
-      controllerAs: 'vm',
-      bindings: {
-        appToken: '='
-      }
+      controllerAs: 'vm'
     })
 
 
-  LoginController.$inject = ['AuthService', '$location', '$state'];
+  LoginController.$inject = ['AuthService', '$location', '$state', '$interval'];
 
-  function LoginController(AuthService, $location, $state) {
+  function LoginController(AuthService, $location, $state,  $interval) {
     var vm = this;
-
-    vm.login = login;
-    vm.loginForm;
-    vm.$onInit = onInit;
-    vm.errorAuthentication = false;
+    vm.$onInit = onInit; 
 
     function onInit() { 
-        AuthService.GetAuthToken() 
+        vm.login = login;
+        vm.loginForm;
+        AuthService.GetAuthToken(); 
+        $interval(function(){ AuthService.GetAuthToken(); }, 1000*60*5 )
     }
 
 
     function login(loginForm) {
-
       if (loginForm.$invalid){
         console.log('formulario invalido')
       }

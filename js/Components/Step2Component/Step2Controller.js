@@ -7,12 +7,57 @@
 
         .component('step2Component', {
             controller: Step2Controller,
-            templateUrl: 'js/Components/Step2Component/step2.html'
+            templateUrl: 'js/Components/Step2Component/step2.html',
+            controllerAs: 'vm'
         })
 
-        Step2Controller.$inject = ['$cookies'];
+        Step2Controller.$inject = ['PaymentService', '$location', '$state', 'DonationService' ];
 
-        function Step2Controller($cookies){
+        function Step2Controller(PaymentService, $location, $state, DonationService){
+
+            var vm = this; 
+           
+            vm.$onInit = onInit; 
+            
+
+            function onInit() { 
+                vm.SaveCharity = SaveCharity;
+                vm.CharityForm;
+                vm.charityData;
+                vm.CharitySelected = '';
+                
+                PaymentService.GetCharities()
+                    .then((res) => { 
+                        vm.GetCharities = res;
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });  
+
+                if(DonationService.DataDonation.Payment != null){
+                    vm.CharitySelected = DonationService.DataDonation.Charity.EntityId;
+                    console.log(DonationService.DataDonation.Payment);
+                } else {
+                    $state.go('newDonation.step1');
+                }
+            }
+
+            function SaveCharity(CharityForm){ 
+
+                if (CharityForm.$invalid){
+                    vm.ErrorMessage = true; 
+                    vm.ErrorMessageText = "Select An Option";
+
+                } else {
+                    vm.GetCharities.PanelItemList.forEach(Charity => {
+                        if(vm.CharitySelected == Charity.EntityId ){ 
+                            vm.charityDataItem = Charity; 
+                        }   
+                    });  
+                    DonationService.SetCharityData(vm.charityDataItem);
+                    $state.go('newDonation.step3');
+                } 
+            } 
 
         }
 })();

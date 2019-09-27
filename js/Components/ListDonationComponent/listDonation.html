@@ -1,35 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>All Donations</title>
-</head>
-<body>
-    <nav-bar></nav-bar>
+<nav-bar></nav-bar>
 
-    <section class="jumbotron text-center bg-blue">
-        <div class="container">
-            <h2 class="jumbotron-heading">Donations</h2>
-        </div>
-    </section>
-
+<section class="jumbotron text-center bg-blue">
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#!/home">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">All Donations</li>
-                    </ol>
-                </nav>
-            </div> 
+        <h2 class="jumbotron-heading">Donations</h2>
+    </div>
+</section>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a ui-sref="listDonation">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">All Donations</li>
+                </ol>
+            </nav>
         </div>
+    </div>
 
-        <div class="row">
-            <button class="btn btn-success mb-3 btn-sm ml-3" type="button" data-toggle="modal" data-target="#NewDonation">
-                <i class="fa fa-plus"></i> New Donation
-            </button>
+    <div class="row">
+        <button class="btn btn-success mb-3 btn-sm ml-3" type="button" ui-sref="newDonation.step1">
+            <i class="fa fa-plus"></i> New Donation
+        </button>
 
-            <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center">
+            <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -42,20 +37,46 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                        <tr ng-repeat="Donation in vm.DonationsList">
+                            <td>{{ Donation.DateLastUpdated | date: 'M/d/yyyy' }}</td>
+                            <td>{{ Donation.CampaignName }}</td>
+                            <td>{{ Donation.TransactionNumber }}</td>
+                            <td>{{ vm.GetPaymentLabel(Donation.PaymentType) }}</td>
+                            <td>{{ Donation.TotalValue | currency }}</td>
+                            <td>
+                                <button type="button" class="btn btn-success btn-sm" ng-click="vm.GetDetail(Donation)" data-toggle="modal" data-target="#DonationModal"> 
+                                    <i class="fa fa-align-justify"></i> Detail 
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
-            </div>   
+            </table>
         </div>
-
+    </div> 
+    <div class="modal fade" id="DonationModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Transaction #{{ vm.ModalHeader }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Date Created:</strong> {{ vm.ModalDate | date: 'MM/dd/yyyy h:mm a' }} </p>
+                    <p><strong>Status:</strong> {{ vm.ModalStatus }}</p>
+                    <p><strong>Payment Type:</strong> {{ vm.GetPaymentLabel(vm.ModalPaymentType) }} </p>
+                    <p><strong>Pledge:</strong> {{ vm.ModalPaymentAmount | currency }}</p>
+                    <p><strong>Total Annual Amount:</strong> {{ vm.ModalTotalValue | currency }}</p>
+                    <hr>
+                    <p><strong>Charity Detail:</strong> {{ vm.ModalCharity }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
+                </div>
+            </div>
+        </div>
     </div>
-
-</body>
-</html>
+</div>
