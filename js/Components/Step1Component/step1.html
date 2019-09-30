@@ -1,336 +1,195 @@
-    <div class="alert alert-danger" role="alert" ng-show="vm.ErrorMessage">
-        {{ vm.ErrorMessageText }}
+<div uib-alert class="alert alert-danger" class="alert alert-danger" ng-show="vm.ErrorMessage">{{ vm.ErrorMessageText }}
+</div>
+<form role="form" name="PaymentForm" ng-submit="vm.SavePayment(PaymentForm)" novalidate>
+    <uib-accordion>
+        <div uib-accordion-group class="mt-3" is-open="true">
+            <uib-accordion-heading>
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                    aria-controls="collapseOne">
+                    {{ vm.GetConfigs.PaymentTypeLabel }}
+                </button>
+            </uib-accordion-heading>
+            <p ng-show="m.GetConfigs.PaymentInstructions">{{ vm.GetConfigs.PaymentInstructions }}</p>
+            <p>{{ vm.GetConfigs.PaymentQuestion }}</p>
+            <div class="form-group">
+                <div class="form-check form-check-inline"
+                    ng-repeat="Question in vm.GetConfigs.AmountQuestions[0].AmountOptions">
+                    <div ng-if="Question.AmountLabel !== ''">
+                        <input class="form-check-input" type="radio" name="amounts" id="amount{{ $index }}"
+                            ng-required="!vm.CustomAmountRequired" ng-model="vm.PaymentAmount"
+                            ng-change="vm.RemoveCustomAmount()"
+                            ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.amounts.$invalid }"
+                            ng-value="Question.Amount">
+                        <label class="form-check-label" for="amount{{ $index }}">{{ Question.AmountLabel }}</label>
+                    </div>
+                    <div ng-if="Question.AmountLabel == ''">
+                        <div class="input-group d-flex align-items-center">
+                            <input class="form-check-input" type="radio" name="amounts" id="amount{{ $index }}"
+                                ng-checked="false" ng-required="vm.CustomAmountRequired" ng-model="vm.PaymentAmount"
+                                ng-change="vm.SetCustomAmount()"
+                                ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.amounts.$invalid }"
+                                ng-value="vm.PaymentCustomAmount">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">$</div>
+                            </div>
+                            <input type="number" ng-required="vm.CustomAmountRequired"
+                                min="{{ vm.GetConfigs.MinimumDonationAmount }}" name="customAmount" class="form-control"
+                                ng-change="vm.ResetAmount()" ng-model="vm.PaymentCustomAmount"
+                                ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.customAmount.$invalid }"
+                                placeholder="Custom Ammount">
+                        </div>
+                    </div>
+                </div>
+                <p ng-show="PaymentForm.$submitted && PaymentForm.amounts.$invalid" class="text-danger mt-1">Select an
+                    amount or verify if the Custom Amount is superior to
+                    <strong>{{ vm.GetConfigs.MinimumDonationAmount }}</strong> </p>
+            </div>
+            <p>{{ vm.GetConfigs.FrequencyInstructions }}</p>
+            <div class="form-group">
+                <div class="form-check form-check-inline" ng-repeat="Frequensy in vm.GetListFrequensy">
+                    <input class="form-check-input" type="radio" name="frequencyList" id="frequency{{ $index }}"
+                        ng-value="{{ Frequensy.type }}" ng-model="vm.PaymentFrecuency"
+                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.frequencyList.$invalid }"
+                        required="required">
+                    <label class="form-check-label" for="frequency{{ $index }}">{{ Frequensy.typeLabel }}</label>
+                </div>
+                <p ng-show="PaymentForm.$submitted && PaymentForm.frequencyList.$invalid" class="text-danger">Select a
+                    frequency</p>
+            </div>
+        </div>
+        <div uib-accordion-group class="mt-3" is-open="true">
+            <uib-accordion-heading>
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                    aria-controls="collapseOne">
+                    {{ vm.GetConfigs.PaymentTypeLabel }} Information
+                </button>
+            </uib-accordion-heading>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="Card Type"> Card Type</label>
+                    <select class="form-control" required="required" name="cc" id="cc" ng-model="vm.PaymentCc"
+                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.cc.$invalid }"
+                        ng-options="CreditCard.type as CreditCard.typeLabel for CreditCard in vm.GetListCards">
+                        <option disabled value="">Select Type of Credit Card</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Card Number</label>
+                    <input type="tel" name="cardNumber" maxlength="19" pattern="[0-9]*" id="cardNumber"
+                        class="form-control" placeholder="Card Number"
+                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.cardNumber.$invalid || (PaymentForm.$submitted && vm.ErrorMessageCc)}"
+                        ng-model="vm.PaymentCardNumber" required="required">
+                    <div class="invalid-feedback" ng-show="PaymentForm.$submitted && vm.ErrorMessageCc">
+                        {{ vm.ErrorMessageTextCc }}</div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationServer02">Card Verification Number</label>
+                    <input type="text" name="validationNumber" maxlength="4" minlength="3" pattern="[0-9]*"
+                        id="validationNumber" class="form-control"
+                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.validationNumber.$invalid }"
+                        placeholder="Card Verification Number" ng-model="vm.PaymentValidationNumber"
+                        required="required">
+                </div>
+                <div class="col-md-5 mb-3">
+                    <label for="validationServer02">Name on card</label>
+                    <input type="text" name="nameCard" id="nameCard" pattern="^[a-zA-Z]+(\s[a-zA-Z]+)+$"
+                        class="form-control"
+                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.nameCard.$invalid }"
+                        placeholder="Name on the Card" ng-model="vm.PaymentNameCard" required="required">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationServer02">Expiration Date</label>
+                    <input required type="text" readonly class="form-control" uib-datepicker-popup="MM/yyyy"
+                        ng-model="vm.PaymentExpirationDate" name="expirationDate" is-open="vm.expDatePopup.opened"
+                        datepicker-options="vm.ExpDateOpts" datepicker-mode="'month'" close-text="Close"
+                        placeholder="mm/yyyy"
+                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.expirationDate.$invalid }"
+                        alt-input-formats="altInputFormats" ng-click="vm.OpenExpDatePopup()" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="validationServer02">Contact Email Address</label>
+                    <input type="email" name="emailContact"
+                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.emailContact.$invalid }"
+                        id="emailContact" class="form-control" placeholder="Contact Email Address"
+                        ng-model="vm.PaymentEmail">
+                </div>
+            </div>
+        </div>
+        <div uib-accordion-group class="mt-3" is-open="true">
+            <uib-accordion-heading>
+                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                    aria-controls="collapseOne">
+                    Billing Address Information
+                </button>
+            </uib-accordion-heading>
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="Card Type">Country</label>
+                    <select class="form-control" required="required" name="country" id="country"
+                        ng-model="vm.PaymentCountry"
+                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.country.$invalid }"
+                        ng-options="Countries.ISO as Countries.CountryName for Countries in vm.GetCountries">
+                        <option disabled value="">Select Country</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label>Address 1</label>
+                    <input type="text" name="address1" id="address1" class="form-control" placeholder="Address 1"
+                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.address1.$invalid }"
+                        ng-model="vm.PaymentAddress1" required="required">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label>Address 2</label>
+                    <input type="text" name="address2" id="address2" class="form-control"
+                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.address2.$invalid }"
+                        placeholder="Address 2" ng-model="vm.PaymentAddress2">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label>City</label>
+                    <input type="text" name="city" id="city" class="form-control" placeholder="City"
+                        ng-model="vm.PaymentCity"
+                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.city.$invalid }"
+                        required="required">
+                </div>
+                <div class="col-md-4 mb-3" ng-if="vm.PaymentCountry == 'us'">
+                    <label>State</label>
+                    <select class="form-control" name="state" id="state" ng-model="vm.PaymentState"
+                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.state.$invalid }"
+                        ng-options="States.Abbreviation as States.Name for States in vm.GetStates" required="required">
+                        <option disabled value="">Select State</option>
+                    </select>
+                </div>
+                <div class="col-md-4 mb-3" ng-if="vm.PaymentCountry !== 'us'">
+                    <label>Province</label>
+                    <input type="text" name="province" id="province" class="form-control" placeholder="Province"
+                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.province.$invalid }"
+                        ng-model="vm.PaymentProvince" required="required">
+                </div>
+                <div class="col-md-4 mb-3" ng-if="vm.PaymentCountry !== 'us'">
+                    <label>Zip Code</label>
+                    <input type="text" name="zip" id="zip" minlength="5" maxlength="5" pattern="[0-9]*"
+                        class="form-control" placeholder="Zip Code"
+                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.zip.$invalid }"
+                        ng-model="vm.PaymentZip" required="required">
+                </div>
+                <div class="col-md-2 mb-3" ng-if="vm.PaymentCountry == 'us'">
+                    <label>Zip Code</label>
+                    <input type="text" name="zip" id="zip" minlength="5" maxlength="5" pattern="[0-9]*"
+                        class="form-control"
+                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.zip.$invalid }"
+                        placeholder="Zip Code" ng-model="vm.PaymentZip" required="required">
+                </div>
+                <div class="col-md-2 mb-3" ng-if="vm.PaymentCountry == 'us'">
+                    <label>Zip Extention</label>
+                    <input type="text" name="zipExtention" minlength="4" maxlength="4" pattern="[0-9]*"
+                        id="zipExtention" class="form-control"
+                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.zipExtention.$invalid }"
+                        placeholder="Zip Extention" ng-model="vm.PaymentZipExtention">
+                </div>
+            </div>
+        </div>
+    </uib-accordion>
+    <div class="mt-3 float-right mb-5">
+        <button class="btn btn-outline-success" type="submit"> Next </button>
     </div>
-    
-    <form role="form" name="PaymentForm" ng-submit="vm.SavePayment(PaymentForm)" novalidate>
-        <div id="accordion">
-    
-            <div class="card">
-                <div class="card-header" id="headingOne">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-                            aria-controls="collapseOne">
-                            {{ vm.GetConfigs.PaymentTypeLabel }}
-                        </button>
-                    </h5>
-                </div>
-                <!-- {{ vm.CustomAmountRequired }} - {{ vm.PaymentAmount }} - {{ vm.PaymentCustomAmount }} -->
-                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                    <div class="card-body">
-                        <p ng-show="m.GetConfigs.PaymentInstructions">{{ vm.GetConfigs.PaymentInstructions }}</p> 
-                        <p>{{ vm.GetConfigs.PaymentQuestion }}</p>
-                        <div class="form-group"> 
-                            <div class="form-check form-check-inline" ng-repeat="Question in vm.GetConfigs.AmountQuestions[0].AmountOptions">
-                                <div ng-if="Question.AmountLabel !== ''">
-                                    <input  class="form-check-input" 
-                                            type="radio" 
-                                            name="amounts"
-                                            id="amount{{ $index }}"
-                                            ng-required="!vm.CustomAmountRequired"
-                                            ng-model="vm.PaymentAmount"
-                                            ng-change="vm.RemoveCustomAmount()"
-                                            ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.amounts.$invalid }"
-                                            ng-value="Question.Amount"> 
-                                            
-                                    <label class="form-check-label" for="amount{{ $index }}">{{ Question.AmountLabel }}</label>
-                                </div>
-    
-                                <div ng-if="Question.AmountLabel == ''"> 
-                                        <div class="input-group d-flex align-items-center">
-                                            <input  class="form-check-input" 
-                                                type="radio" 
-                                                name="amounts"
-                                                id="amount{{ $index }}"
-                                                ng-checked="false"
-                                                ng-required="vm.CustomAmountRequired"
-                                                ng-model="vm.PaymentAmount"
-                                                ng-change="vm.SetCustomAmount()"
-                                                ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.amounts.$invalid }"
-                                                ng-value="vm.PaymentCustomAmount">
-                                            
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">$</div>
-                                            </div>
-    
-                                            <input 
-                                                type="number" 
-                                                ng-required="vm.CustomAmountRequired"
-                                                min="{{ vm.GetConfigs.MinimumDonationAmount }}"
-                                                name="customAmount"
-                                                class="form-control" 
-                                                ng-change="vm.ResetAmount()" 
-                                                ng-model="vm.PaymentCustomAmount"
-                                                ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.customAmount.$invalid }"
-                                                placeholder="Custom Ammount"> 
-                                        </div> 
-                                </div>  
-                            </div>
-                            <p ng-show="PaymentForm.$submitted && PaymentForm.amounts.$invalid" class="text-danger mt-1">Select an amount or verify if the Custom Amount is superior to <strong>{{ vm.GetConfigs.MinimumDonationAmount }}</strong> </p>
-                            
-                        </div> 
-                        <p>{{ vm.GetConfigs.FrequencyInstructions }}</p>
-                        <div class="form-group">
-                            <div class="form-check form-check-inline" ng-repeat="Frequensy in vm.GetListFrequensy">
-                                <input  class="form-check-input" 
-                                        type="radio" 
-                                        name="frequencyList" 
-                                        id="frequency{{ $index }}"
-                                        ng-value="{{ Frequensy.type }}"
-                                        ng-model="vm.PaymentFrecuency"
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.frequencyList.$invalid }"
-                                        required="required">
-                                <label class="form-check-label" for="frequency{{ $index }}">{{ Frequensy.typeLabel }}</label>
-                            </div>
-                            <p ng-show="PaymentForm.$submitted && PaymentForm.frequencyList.$invalid" class="text-danger">Select a frequency</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="card mt-3">
-                <div class="card-header" id="headingTwo">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
-                            aria-expanded="false" aria-controls="collapseTwo">
-                            {{ vm.GetConfigs.PaymentTypeLabel }} Information
-                        </button>
-                    </h5>
-                </div>
-                <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
-                    <div class="card-body">
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <label for="Card Type"> Card Type</label>
-                                <select class="form-control" 
-                                        required="required"
-                                        name="cc" 
-                                        id="cc" 
-                                        ng-model="vm.PaymentCc"
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.cc.$invalid }"
-                                        ng-options="CreditCard.type as CreditCard.typeLabel for CreditCard in vm.GetListCards">
-                                    <option disabled value="">Select Type of Credit Card</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label>Card Number</label>
-                                <input  type="tel" 
-                                        name="cardNumber" 
-                                        maxlength="19" 
-                                        pattern="[0-9]*" 
-                                        id="cardNumber"
-                                        class="form-control" 
-                                        placeholder="Card Number" 
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.cardNumber.$invalid || (PaymentForm.$submitted && vm.ErrorMessageCc)}"                                        
-                                        ng-model="vm.PaymentCardNumber" 
-                                        required="required">
-                                <div class="invalid-feedback"  ng-show="PaymentForm.$submitted && vm.ErrorMessageCc"> {{ vm.ErrorMessageTextCc }}</div>
-                            </div>  
-    
-                            <div class="col-md-4 mb-3">
-                                <label for="validationServer02">Card Verification Number</label>
-                                <input  type="text" 
-                                        name="validationNumber" 
-                                        maxlength="4" 
-                                        minlength="3" 
-                                        pattern="[0-9]*"
-                                        id="validationNumber" 
-                                        class="form-control" 
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.validationNumber.$invalid }" 
-                                        placeholder="Card Verification Number"
-                                        ng-model="vm.PaymentValidationNumber" 
-                                        required="required">
-                            </div>
-    
-                            <div class="col-md-5 mb-3">
-                                <label for="validationServer02">Name on card</label>
-                                <input  type="text" 
-                                        name="nameCard" 
-                                        id="nameCard" 
-                                        pattern="^[a-zA-Z]+(\s[a-zA-Z]+)+$"
-                                        class="form-control" 
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.nameCard.$invalid }" 
-                                        placeholder="Name on the Card" 
-                                        ng-model="vm.PaymentNameCard"
-                                        required="required">
-                            </div>
-    
-                            <div class="col-md-3 mb-3">
-                                <label for="validationServer02">Expiration Date</label>
-                                <input required 
-                                        type="text"
-                                        readonly
-                                        class="form-control" 
-                                        uib-datepicker-popup="MM/yyyy" 
-                                        ng-model="vm.PaymentExpirationDate" 
-                                        name="expirationDate"
-                                        is-open="vm.expDatePopup.opened" 
-                                        datepicker-options="vm.ExpDateOpts" 
-                                        datepicker-mode="'month'"
-                                        close-text="Close"
-                                        placeholder="mm/yyyy"
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.expirationDate.$invalid }" 
-                                        alt-input-formats="altInputFormats"
-                                        ng-click="vm.OpenExpDatePopup()" />
-                            </div>
-
-
-                            <div class="col-md-6 mb-3">
-                                <label for="validationServer02">Contact Email Address</label>
-                                <input  type="email" 
-                                        name="emailContact" 
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.emailContact.$invalid }" 
-                                        id="emailContact" 
-                                        class="form-control"
-                                        placeholder="Contact Email Address" 
-                                        ng-model="vm.PaymentEmail">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="card mt-3">
-                <div class="card-header" id="headingThree">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree"
-                            aria-expanded="false" aria-controls="collapseThree">
-                            Billing Address Information
-                        </button>
-                    </h5>
-                </div>
-                <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
-                    <div class="card-body">
-                        <div class="form-row">
-    
-                            <div class="col-md-4 mb-3">
-                                <label for="Card Type">Country</label>
-                                <select class="form-control" 
-                                        required="required" 
-                                        name="country" 
-                                        id="country"
-                                        ng-model="vm.PaymentCountry"
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.country.$invalid }"
-                                        ng-options="Countries.ISO as Countries.CountryName for Countries in vm.GetCountries">
-                                    <option disabled value="">Select Country</option>
-                                </select>
-                            </div>
-    
-                            <div class="col-md-4 mb-3">
-                                <label>Address 1</label>
-                                <input  type="text" 
-                                        name="address1" 
-                                        id="address1" 
-                                        class="form-control"
-                                        placeholder="Address 1" 
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.address1.$invalid }"
-                                        ng-model="vm.PaymentAddress1" 
-                                        required="required">
-                            </div>
-    
-                            <div class="col-md-4 mb-3">
-                                <label>Address 2</label>
-                                <input  type="text" 
-                                        name="address2" 
-                                        id="address2" 
-                                        class="form-control"
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.address2.$invalid }"
-                                        placeholder="Address 2" 
-                                        ng-model="vm.PaymentAddress2">
-                            </div> 
-    
-                            <div class="col-md-4 mb-3">
-                                <label>City</label>
-                                <input  type="text" 
-                                        name="city" 
-                                        id="city" 
-                                        class="form-control" 
-                                        placeholder="City"
-                                        ng-model="vm.PaymentCity" 
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.city.$invalid }"
-                                        required="required">
-                            </div> 
-    
-                            <div class="col-md-4 mb-3" ng-if="vm.PaymentCountry == 'us'">
-                                <label>State</label>
-                                <select class="form-control" 
-                                        name="state" 
-                                        id="state" 
-                                        ng-model="vm.PaymentState"
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.state.$invalid }"
-                                        ng-options="States.Abbreviation as States.Name for States in vm.GetStates"
-                                        required="required">
-                                    <option disabled value="">Select State</option>
-                                </select>
-                            </div>
-    
-                            <div class="col-md-4 mb-3" ng-if="vm.PaymentCountry !== 'us'">
-                                <label>Province</label>
-                                <input  type="text" 
-                                        name="province" 
-                                        id="province" 
-                                        class="form-control" 
-                                        placeholder="Province"
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.province.$invalid }"
-                                        ng-model="vm.PaymentProvince" 
-                                        required="required">
-                            </div>
-    
-                            <div class="col-md-4 mb-3" ng-if="vm.PaymentCountry !== 'us'">
-                                <label>Zip Code</label>
-                                <input  type="text" 
-                                        name="zip" 
-                                        id="zip" 
-                                        minlength="5" 
-                                        maxlength="5" 
-                                        pattern="[0-9]*"
-                                        class="form-control"
-                                        placeholder="Zip Code" 
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.zip.$invalid }"
-                                        ng-model="vm.PaymentZip" 
-                                        required="required">
-                            </div>
-    
-                            <div class="col-md-2 mb-3" ng-if="vm.PaymentCountry == 'us'">
-                                <label>Zip Code</label>
-                                <input  type="text" 
-                                        name="zip" 
-                                        id="zip" 
-                                        minlength="5" 
-                                        maxlength="5" 
-                                        pattern="[0-9]*"
-                                        class="form-control" 
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.zip.$invalid }"
-                                        placeholder="Zip Code" 
-                                        ng-model="vm.PaymentZip"  
-                                        required="required">
-                            </div>
-    
-                            <div class="col-md-2 mb-3" ng-if="vm.PaymentCountry == 'us'">
-                                <label>Zip Extention</label>
-                                <input  type="text" 
-                                        name="zipExtention" 
-                                        minlength="4" 
-                                        maxlength="4" 
-                                        pattern="[0-9]*"
-                                        id="zipExtention" 
-                                        class="form-control"
-                                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.zipExtention.$invalid }"
-                                        placeholder="Zip Extention" 
-                                        ng-model="vm.PaymentZipExtention">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-    
-        <div class="mt-3 float-right mb-5">
-            <button class="btn btn-outline-success" type="submit"> Next </button>
-        </div>
-    </form>
-    
-     
-    <!-- <div class="col-md-6">
-          {{ PaymentForm | json : spacing }}
-    </div>   -->
+</form>

@@ -28,26 +28,33 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th scope="col"></th>
                             <th scope="col">Date</th>
                             <th scope="col">Campaign</th>
                             <th scope="col">Pledge</th>
                             <th scope="col">Payment Type</th>
                             <th scope="col">Total</th>
-                            <th scope="col">Opciones</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="Donation in vm.DonationsList">
+                            <td>
+                                <div class="btn-group mb-2" uib-dropdown is-open="status.isopen">
+                                    <button id="single-button" type="button" class="btn btn-primary btn-sm" uib-dropdown-toggle ng-disabled="disabled">
+                                            <i class="fa fa-wrench"></i> Actions  <span class="caret"></span>
+                                    </button>
+                                    <div class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                        <button ng-click="vm.GetDetail(Donation)" data-toggle="modal" data-target="#DonationModal" class="dropdown-item">Detail</button> 
+                                    </div>
+                                </div> 
+                            </td>
                             <td>{{ Donation.DateLastUpdated | date: 'M/d/yyyy' }}</td>
                             <td>{{ Donation.CampaignName }}</td>
                             <td>{{ Donation.TransactionNumber }}</td>
                             <td>{{ vm.GetPaymentLabel(Donation.PaymentType) }}</td>
                             <td>{{ Donation.TotalValue | currency }}</td>
-                            <td>
-                                <button type="button" class="btn btn-success btn-sm" ng-click="vm.GetDetail(Donation)" data-toggle="modal" data-target="#DonationModal"> 
-                                    <i class="fa fa-align-justify"></i> Detail 
-                                </button>
-                            </td>
+                            
                         </tr>
                     </tbody>
                 </table>

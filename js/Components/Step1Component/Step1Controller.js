@@ -29,7 +29,7 @@
                 vm.SavePayment = SavePayment;
                 vm.PaymentForm;
                 vm.ValidateCCNumber = ValidateCCNumber;
-                vm.CustomAmountRequired = false;
+                vm.CustomAmountRequired = true;
                 vm.ErrorMessage = false; 
                 vm.PaymentDataArray = {};
                 vm.PaymentState = null;
@@ -37,7 +37,7 @@
                 vm.PaymentCustomAmount = null;
                 vm.CcIsValid = false;
                 vm.ErrorMessageCc = false;
-                DonationService.DataDonation.Success = false;
+                DonationService.DataDonation.Success = false; 
 
 
                 vm.OpenExpDatePopup = OpenExpDatePopup;
@@ -74,6 +74,7 @@
                     });  
 
                 if(DonationService.DataDonation.Payment != null){ 
+                    vm.CustomAmountRequired = false;
                     vm.PaymentAmount = DonationService.DataDonation.Payment.PaymentAmount; 
                     vm.PaymentCustomAmount = DonationService.DataDonation.Payment.PaymentCustomAmount;
                     vm.PaymentFrecuency = DonationService.DataDonation.Payment.PaymentFrecuency;
