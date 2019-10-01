@@ -8,12 +8,13 @@
         .component('listDonationComponent', {
             controller: ListDonationController,
             templateUrl: 'js/Components/ListDonationComponent/ListDonation.html',
-            controllerAs: 'vm'
+            controllerAs: 'vm',
+            bindings: {}
         })
 
-        ListDonationController.$inject = ['$cookies', 'DonationService', '$state', 'PaymentService'];
+        ListDonationController.$inject = ['DonationService', '$state', '$uibModal', 'PaymentService'];
 
-        function ListDonationController($cookies, DonationService, $state, PaymentService){
+        function ListDonationController(DonationService, $state, $uibModal, PaymentService){
 
             var vm = this;
             vm.$onInit = onInit;
@@ -47,14 +48,8 @@
                 return CardLabel;
             }
 
-            function GetDetail(Donation){ 
-                vm.ModalDate  = Donation.DateLastUpdated;
-                vm.ModalStatus = Donation.PledgeStatusType;
-                vm.ModalPaymentType = Donation.PaymentType;
-                vm.ModalPaymentAmount = Donation.PaymentAmount;
-                vm.ModalTotalValue = Donation.TotalValue;
-                vm.ModalCharity = Donation.DesignationList[0].Name;
-                vm.ModalHeader = Donation.TransactionNumber; 
+            function GetDetail(info){ 
+                $state.go('listDonation.details', { donation: info, id: info.TransactionNumber })
             } 
         }
         

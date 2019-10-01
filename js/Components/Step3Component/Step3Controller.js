@@ -16,13 +16,12 @@
         function Step3Controller(PaymentService, $location, $state, DonationService){
 
             var vm = this; 
-           
             vm.$onInit = onInit; 
-            vm.BilledDate = new Date();
             
             function onInit() { 
                 vm.SendDonation = SendDonation; 
                 vm.GetFrecuencyName = GetFrecuencyName;
+                vm.BilledDate = new Date();
 
                 if(DonationService.DataDonation.Charity != null && DonationService.DataDonation.Charity != null){
                     console.log(DonationService.DataDonation);

@@ -45,7 +45,7 @@
                                             <i class="fa fa-wrench"></i> Actions  <span class="caret"></span>
                                     </button>
                                     <div class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                                        <button ng-click="vm.GetDetail(Donation)" data-toggle="modal" data-target="#DonationModal" class="dropdown-item">Detail</button> 
+                                        <button ng-click="vm.GetDetail(Donation)" class="dropdown-item">Detail</button> 
                                     </div>
                                 </div> 
                             </td>
@@ -53,37 +53,11 @@
                             <td>{{ Donation.CampaignName }}</td>
                             <td>{{ Donation.TransactionNumber }}</td>
                             <td>{{ vm.GetPaymentLabel(Donation.PaymentType) }}</td>
-                            <td>{{ Donation.TotalValue | currency }}</td>
-                            
+                            <td>{{ Donation.TotalValue | currency }}</td> 
                         </tr>
                     </tbody>
                 </table>
             </table>
         </div>
-    </div> 
-    <div class="modal fade" id="DonationModal" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Transaction #{{ vm.ModalHeader }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Date Created:</strong> {{ vm.ModalDate | date: 'MM/dd/yyyy h:mm a' }} </p>
-                    <p><strong>Status:</strong> {{ vm.ModalStatus }}</p>
-                    <p><strong>Payment Type:</strong> {{ vm.GetPaymentLabel(vm.ModalPaymentType) }} </p>
-                    <p><strong>Pledge:</strong> {{ vm.ModalPaymentAmount | currency }}</p>
-                    <p><strong>Total Annual Amount:</strong> {{ vm.ModalTotalValue | currency }}</p>
-                    <hr>
-                    <p><strong>Charity Detail:</strong> {{ vm.ModalCharity }}</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
-                </div>
-            </div>
-        </div>
-    </div>
+    </div>  
 </div>

@@ -1,0 +1,20 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Transaction #{{ vm.donation.TransactionNumber }}</h5>
+        <button type="button" class="close" ng-click="vm.handleClose()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p><strong>Date Created:</strong> {{vm.donation.DateCreated | date: 'MM/dd/yyyy h:mm a'}} </p>
+        <p><strong>Status:</strong> {{vm.donation.PledgeStatusType}} </p>
+        <p><strong>Payment Type:</strong> {{ vm.GetPaymentLabel(vm.donation.PaymentType) }} </p>
+        <p><strong>Pledge:</strong> {{vm.donation.PaymentAmount | currency }}</p>
+        <p><strong>Total Annual Amount:</strong> {{vm.donation.TotalValue | currency }}</p>
+        <hr>
+        <p><strong>Charity Detail:</strong> {{ vm.donation.DesignationList[0].Name }}</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" ng-click="vm.handleClose()">Close</button>
+    </div>
+</div> 

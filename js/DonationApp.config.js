@@ -67,6 +67,58 @@
           component: 'step4Component'
         })
 
+        registerStatefulModal(
+          '/listDonation/{id}',
+          'listDonation.details',
+          'donationModalComponent',
+          { donation: null },
+          'lg'
+      );
+
+      function registerStatefulModal(url, stateName, component, params, size, resolves) {
+          params = params || {};
+          resolves = resolves || angular.extend({},
+              resolves,
+              {
+                  stateParams: ['$stateParams', function ($stateParams) {
+                      return $stateParams;
+                  }]
+              });
+          size = size;        
+          var modal;
+          $stateProvider.state(stateName, {
+              url: url,
+              modal: true,
+              params: params,
+              onEnter: [ '$stateParams', '$uibModal', function ($stateParams, $uibModal) {
+
+                  modal = $uibModal.open({
+                      animation: true,
+                      backdrop: true,
+                      keyboard: true,
+                      size: size,
+                      component: component,
+                      resolve: resolves
+                  });
+                  modal.result.catch(function (reason) {
+                      if (reason) {
+                          
+                      }
+                  });
+                  modal.result.then(function (result) {
+                      
+                  });
+                  modal.result.finally(function () {
+                      modal.dismiss();
+                  });
+              }],
+              onExit: function () {
+                  if (modal) {
+                      modal.close();
+                  }
+              }
+          });
+      };
       
     }
 
