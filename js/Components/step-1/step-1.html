@@ -69,7 +69,8 @@
                     <label for="Card Type"> Card Type</label>
                     <select class="form-control" required="required" name="cc" id="cc" ng-model="vm.PaymentCc"
                         ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.cc.$invalid }"
-                        ng-options="CreditCard.type as CreditCard.typeLabel for CreditCard in vm.GetListCards">
+                        ng-options="CreditCard.type as CreditCard.typeLabel for CreditCard in vm.GetListCards"
+                        ng-change="vm.ValidateCCNumber(vm.PaymentCc, vm.PaymentCardNumber)">
                         <option disabled value="">Select Type of Credit Card</option>
                     </select>
                 </div>
@@ -77,10 +78,12 @@
                     <label>Card Number</label>
                     <input type="tel" name="cardNumber" maxlength="19" pattern="[0-9]*" id="cardNumber"
                         class="form-control" placeholder="Card Number"
-                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.cardNumber.$invalid || (PaymentForm.$submitted && vm.ErrorMessageCc)}"
-                        ng-model="vm.PaymentCardNumber" required="required">
-                    <div class="invalid-feedback" ng-show="PaymentForm.$submitted && vm.ErrorMessageCc">
-                        {{ vm.ErrorMessageTextCc }}</div>
+                        ng-class="{ 'is-invalid' : PaymentForm.cardNumber.$touched && !vm.CcIsValid || PaymentForm.$submitted && PaymentForm.cardNumber.$invalid,
+                                    'is-valid' : vm.CcIsValid }"
+                        ng-model="vm.PaymentCardNumber"
+                        ng-change="vm.ValidateCCNumber(vm.PaymentCc, vm.PaymentCardNumber)" required="required"> 
+                        <div class="invalid-feedback" ng-show="PaymentForm.cardNumber.$touched && !vm.CcIsValid">The Credit Card is Invalid</div>
+                        
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="validationServer02">Card Verification Number</label>
@@ -186,3 +189,4 @@
         <button class="btn btn-outline-success" type="submit"> Next </button>
     </div>
 </form>
+

@@ -128,22 +128,22 @@
                         $state.go('newDonation.step2');
                     } else {
                         vm.ErrorMessageCc = true; 
-                        vm.ErrorMessageTextCc = "The Credit Card Number Is Incorrect"; 
+                        vm.ErrorMessageTextCc = "The Credit Card Number Is Required"; 
                     } 
                 } 
                 
             }
 
             function ValidateCCNumber(type, number){ 
-                vm.CcIsValid = false;
-                if (!type) {
+                vm.CcIsValid = false; 
+                if (!type) { 
                     return false;
                 } else {
                     PaymentService.CreditCardsList.forEach(card => {
                         var regexType = card.typeLabel;
                         if (card.type === type && PaymentService.CcRegex[regexType].test(number)) {
                             vm.CcIsValid = true; 
-                        }
+                        }  
                     }); 
                     return vm.CcIsValid;
                 }
