@@ -48,8 +48,9 @@
                 return CardLabel;
             }
 
-            function GetDetail(info){ 
-                $state.go('listDonation.details', { donation: info, id: info.TransactionNumber })
+            function GetDetail(info){  
+              var infomation = DonationService.SetDonationListItem(info);
+              $state.go('listDonation.details', { donation: infomation, id: info.TransactionNumber });
             } 
         }
         

@@ -4,10 +4,11 @@
         .module('DonationApp')
         .service('DonationService', DonationService)
 
-        DonationService.$inject = ['PaymentRepository', '$q' ];
+        DonationService.$inject = ['PaymentRepository', '$q', 'ModalModel' ];
 
-        function DonationService(PaymentRepository, $q){
+        function DonationService(PaymentRepository, $q, ModalModel){
             var service = this;
+            var modal = new ModalModel();
 
             service.DataDonation = {
                 Payment: null,
@@ -62,6 +63,7 @@
             service.GetFrecuencyCharge = GetFrecuencyCharge;
             service.SetPaymentData = SetPaymentData;
             service.SetCharityData = SetCharityData;
+            service.SetDonationListItem = SetDonationListItem; 
 
             function GetDonations(pageNumber) {
 
@@ -175,6 +177,22 @@
                     }
                 ]
 
+            }
+
+            function SetDonationListItem(info){
+                var data = {
+                    PledgeStatusType: info.PledgeStatusType,
+                    PaymentType: info.PaymentType,
+                    TransactionNumber: info.TransactionNumber,
+                    DateCreated: info.DateCreated,
+                    PaymentAmount: info.PaymentAmount,
+                    TotalValue: info.TotalValue,
+                    DesignationList: info.DesignationList
+                }; 
+                console.log(data);
+                modal.SetModel(data);
+
+                return modal.GetModel();
             }
             
             return service;
