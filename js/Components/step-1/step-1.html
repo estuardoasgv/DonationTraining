@@ -165,20 +165,13 @@
                         ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.province.$invalid }"
                         ng-model="vm.PaymentProvince" required="required">
                 </div>
-                <div class="col-md-4 mb-3" ng-if="vm.PaymentCountry !== 'us'">
+                <div class="mb-3" ng-class="{'col-md-2' : vm.PaymentCountry == 'us', 'col-md-4' : vm.PaymentCountry !== 'us' }">
                     <label>Zip Code</label>
                     <input type="text" name="zip" id="zip" minlength="5" maxlength="5" pattern="[0-9]*"
                         class="form-control" placeholder="Zip Code"
                         ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.zip.$invalid }"
                         ng-model="vm.PaymentZip" required="required">
-                </div>
-                <div class="col-md-2 mb-3" ng-if="vm.PaymentCountry == 'us'">
-                    <label>Zip Code</label>
-                    <input type="text" name="zip" id="zip" minlength="5" maxlength="5" pattern="[0-9]*"
-                        class="form-control"
-                        ng-class="{'is-invalid' : PaymentForm.$submitted && PaymentForm.zip.$invalid }"
-                        placeholder="Zip Code" ng-model="vm.PaymentZip" required="required">
-                </div>
+                </div> 
                 <div class="col-md-2 mb-3" ng-if="vm.PaymentCountry == 'us'">
                     <label>Zip Extention</label>
                     <input type="text" name="zipExtention" minlength="4" maxlength="4" pattern="[0-9]*"
