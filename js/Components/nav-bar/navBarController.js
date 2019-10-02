@@ -6,7 +6,7 @@
 
     .component('navBar', {
         controller: navBarController,
-        templateUrl: 'js/Components/NavbarComponent/navbar.html',
+        templateUrl: 'js/Components/nav-bar/nav-bar.html',
         controllerAs: 'vm'
     })
 

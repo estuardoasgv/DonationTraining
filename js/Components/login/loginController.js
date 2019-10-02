@@ -8,7 +8,7 @@
 
     .component('loginComponent', {
       controller: LoginController,
-      templateUrl: 'js/Components/LoginComponent/login.html',
+      templateUrl: 'js/Components/login/login.html',
       controllerAs: 'vm'
     })
 

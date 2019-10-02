@@ -6,7 +6,7 @@
 
             .component('donationModalComponent', {
                 controller: DonationModalController,
-                templateUrl: 'js/Components/DonationModalComponent/donation-modal.html',
+                templateUrl: 'js/Components/donation-modal/donation-modal.html',
                 controllerAs: 'vm',
                 bindings:  {
                     resolve: '<',

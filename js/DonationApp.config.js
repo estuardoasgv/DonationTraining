@@ -35,7 +35,7 @@
         .state({
           name: 'newDonation',
           url: '/new',
-          templateUrl: 'js/Components/NewDonationComponent/NewDonation.html',
+          templateUrl: 'js/Components/new-donation/new-donation.html',
           redirectTo: 'newDonation.step1',
         }) 
 

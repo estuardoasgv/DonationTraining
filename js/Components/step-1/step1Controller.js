@@ -7,7 +7,7 @@
 
         .component('step1Component', {
             controller: Step1Controller,
-            templateUrl: 'js/Components/Step1Component/step1.html',
+            templateUrl: 'js/Components/step-1/step-1.html',
             controllerAs: 'vm'
         })
 

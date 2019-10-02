@@ -9,7 +9,7 @@
 
     .component('newDonationComponent', {
       controller: NewDonationController,
-      templateUrl: 'js/Components/NewDonationComponent/NewDonation.html'
+      templateUrl: 'js/Components/new-donation/new-donation.html'
     })
 
 

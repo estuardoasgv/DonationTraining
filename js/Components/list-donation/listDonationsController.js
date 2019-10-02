@@ -7,7 +7,7 @@
 
         .component('listDonationComponent', {
             controller: ListDonationController,
-            templateUrl: 'js/Components/ListDonationComponent/ListDonation.html',
+            templateUrl: 'js/Components/list-donation/list-donation.html',
             controllerAs: 'vm',
             bindings: {}
         })

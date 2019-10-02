@@ -7,7 +7,7 @@
 
         .component('step3Component', {
             controller: Step3Controller,
-            templateUrl: 'js/Components/Step3Component/step3.html',
+            templateUrl: 'js/Components/step-3/step-3.html',
             controllerAs: 'vm'
         })
 
